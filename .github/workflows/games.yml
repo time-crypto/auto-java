@@ -7,7 +7,7 @@ on:
     branches:
       - master
     paths:
-      - java/**
+      - java-auto/**
 jobs:
   push:
     name: "auto-java:java_${{ matrix.tag }}"
