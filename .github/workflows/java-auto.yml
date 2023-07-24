@@ -10,7 +10,7 @@ on:
       - java-auto/**
 jobs:
   push:
-    name: "auto-java:java_${{ matrix.tag }}"
+    name: "java-auto:java_${{ matrix.tag }}"
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -30,9 +30,9 @@ jobs:
           password: ${{ secrets.REGISTRY_TOKEN }}
       - uses: docker/build-push-action@v4
         with:
-          context: ./java
-          file: ./java/${{ matrix.tag }}/Dockerfile
+          context: ./java-auto
+          file: ./java-auto/${{ matrix.tag }}/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            ghcr.io/time-crypto/auto-java:java_${{ matrix.tag }}
+            ghcr.io/time-crypto/java-auto:java-auto_${{ matrix.tag }}
