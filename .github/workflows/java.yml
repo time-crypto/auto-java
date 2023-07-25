@@ -1,30 +1,38 @@
-name: java
-
+name: build java
 on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 1 * *"
   push:
     branches:
-    - 'main'
-
+      - master
+    paths:
+      - java-auto/**
 jobs:
-  docker:
+  push:
+    name: "auto:java_${{ matrix.tag }}"
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        tag:
+          - auto
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-      - name: Login to ghcr.io
-        uses: docker/login-action@v1
+      - uses: actions/checkout@v3
+      - uses: docker/setup-qemu-action@v2
+      - uses: docker/setup-buildx-action@v2
+        with:
+          buildkitd-flags: --debug
+      - uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.REGISTRY_TOKEN }}
-      - name: Build and push
-        uses: docker/build-push-action@v2
+      - uses: docker/build-push-action@v4
         with:
-          context: java
+          context: ./java-auto
+          file: ./java-auto/${{ matrix.tag }}/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ghcr.io/time-crypto/java-auto:auto
+          tags: |
+            ghcr.io/time-crypto/yolks:java_${{ matrix.tag }}
