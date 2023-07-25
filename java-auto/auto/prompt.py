@@ -84,6 +84,10 @@ def getPaperRecommendedVersion(zip):
 
     splitted = list(map(int, version.split(".")))
     major, minor = [splitted[0], splitted[1]]
+    if major >= 1 and minor >= 19:
+        return "Java 19"
+    if major >= 1 and minor >= 18:
+        return "Java 18"
     if major >= 1 and minor >= 17:
         return "Java 17"
     if major >= 1 and minor >= 16:
@@ -105,6 +109,10 @@ def getJavaName(zip):
     # Otherwise, just fallback to checking which version of java the files were built with.
     try:
         major_version = getJavaVersion(zip)
+        if major_version >= 63:
+            return "Java 19"
+        if major_version >= 62:
+            return "Java 18"
         if major_version >= 61:
             return "Java 17"
         if major_version >= 60:
@@ -178,6 +186,8 @@ entrypointMappings = {
     "Java 11": "java11",
     "Java 16": "java16",
     "Java 17": "java17",
+    "Java 18": "java18",
+    "Java 19": "java19",
 }
 state_file = "disable_prompt_for_java_version"
 save_file = ".docker_overwrite"
@@ -208,14 +218,14 @@ def main():
                 if not is_echo:
                     raise Exception("Something went really wrong - prompt should be displayed in echo mode but we're not using that mode???")
 
-                print("Detected initial boot with this jar.")
+                print("Detected first boot-up with this jar.")
                 initial = True
                 timedOut = False
                 answer = ""
                 while True:
                     if initial:
                         initial = False
-                        print("Which java version do you want to use?")
+                        print("Which java version do you want to use? (Type in the console a selection from 1-7)")
                     else:
                         print("Invalid option '%s' - the only valid options are the following:" % str(answer))
 
@@ -224,9 +234,11 @@ def main():
                     print("3) Java 11")
                     print("4) Java 16")
                     print("5) Java 17")
-                    print("NOTE: this prompt will automatically expire in 30 seconds from inactivity and default to option 1) if nothing is chosen.")
+                    print("6) Java 18")
+                    print("7) Java 19")
+                    print("SpringRacks Java Selector : This prompt will load automatically detected version if java version is not chosen manually within 15 seconds.")
 
-                    answer = inputWithTimeout(30)
+                    answer = inputWithTimeout(15)
                     if answer is None:
                         answer = "1"
                         # timedOut = True # Technically, this should be set to true but we want to default to automatic always if possible
@@ -236,7 +248,7 @@ def main():
 
                     if answer.isdigit():
                         answer = int(answer)
-                        if answer >= 1 and answer <= 5:
+                        if answer >= 1 and answer <= 7:
                             break
 
                 name = {
@@ -245,6 +257,8 @@ def main():
                     3: "Java 11",
                     4: "Java 16",
                     5: "Java 17",
+                    6: "Java 18",
+                    7: "Java 19",
                 }[answer]
 
                 if answer > 1:
