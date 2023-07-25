@@ -84,10 +84,6 @@ def getPaperRecommendedVersion(zip):
 
     splitted = list(map(int, version.split(".")))
     major, minor = [splitted[0], splitted[1]]
-    if major >= 1 and minor >= 19:
-        return "Java 19"
-    if major >= 1 and minor >= 18:
-        return "Java 18"
     if major >= 1 and minor >= 17:
         return "Java 17"
     if major >= 1 and minor >= 16:
@@ -109,10 +105,6 @@ def getJavaName(zip):
     # Otherwise, just fallback to checking which version of java the files were built with.
     try:
         major_version = getJavaVersion(zip)
-        if major_version >= 63:
-            return "Java 19"
-        if major_version >= 62:
-            return "Java 18"
         if major_version >= 61:
             return "Java 17"
         if major_version >= 60:
@@ -186,8 +178,6 @@ entrypointMappings = {
     "Java 11": "java11",
     "Java 16": "java16",
     "Java 17": "java17",
-    "Java 18": "java18",
-    "Java 19": "java19",
 }
 state_file = "disable_prompt_for_java_version"
 save_file = ".docker_overwrite"
@@ -234,11 +224,9 @@ def main():
                     print("3) Java 11")
                     print("4) Java 16")
                     print("5) Java 17")
-                    print("6) Java 18")
-                    print("7) Java 19")
-                    print("NOTE: this prompt will automatically expire in 15 seconds from inactivity and default to option 1) if nothing is chosen.")
+                    print("NOTE: this prompt will automatically expire in 30 seconds from inactivity and default to option 1) if nothing is chosen.")
 
-                    answer = inputWithTimeout(15)
+                    answer = inputWithTimeout(30)
                     if answer is None:
                         answer = "1"
                         # timedOut = True # Technically, this should be set to true but we want to default to automatic always if possible
@@ -248,7 +236,7 @@ def main():
 
                     if answer.isdigit():
                         answer = int(answer)
-                        if answer >= 1 and answer <= 7:
+                        if answer >= 1 and answer <= 5:
                             break
 
                 name = {
@@ -257,8 +245,6 @@ def main():
                     3: "Java 11",
                     4: "Java 16",
                     5: "Java 17",
-                    6: "Java 18",
-                    7: "Java 19",
                 }[answer]
 
                 if answer > 1:
