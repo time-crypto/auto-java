@@ -90,8 +90,6 @@ def getPaperRecommendedVersion(zip):
         return "Java 18"
     if major >= 1 and minor >= 17:
         return "Java 17"
-    if major >= 1 and minor >= 16:
-        return "Java 16"
     elif major >= 1 and minor >= 12:
         return "Java 11"
     elif major >= 1 and minor >= 8:
@@ -115,8 +113,6 @@ def getJavaName(zip):
             return "Java 18"
         if major_version >= 61:
             return "Java 17"
-        if major_version >= 60:
-            return "Java 16"
         elif major_version >= 55:
             return "Java 11"
         else:
@@ -184,7 +180,6 @@ default = "Java 11"
 entrypointMappings = {
     "Java 8": "java8",
     "Java 11": "java11",
-    "Java 16": "java16",
     "Java 17": "java17",
     "Java 18": "java18",
     "Java 19": "java19",
@@ -225,17 +220,16 @@ def main():
                 while True:
                     if initial:
                         initial = False
-                        print("Which java version do you want to use? (Type in the console a selection from 1-7)")
+                        print("Which java version do you want to use? (Type in the console a selection from 1-6)")
                     else:
                         print("Invalid option '%s' - the only valid options are the following:" % str(answer))
 
                     print("1) Automatically detected version: '%s'" % name)
                     print("2) Java 8")
                     print("3) Java 11")
-                    print("4) Java 16")
-                    print("5) Java 17")
-                    print("6) Java 18")
-                    print("7) Java 19")
+                    print("4) Java 17")
+                    print("5) Java 18")
+                    print("6) Java 19")
                     print("SpringRacks Java Selector : This prompt will load automatically detected version if java version is not chosen manually within 15 seconds.")
 
                     answer = inputWithTimeout(15)
@@ -248,17 +242,16 @@ def main():
 
                     if answer.isdigit():
                         answer = int(answer)
-                        if answer >= 1 and answer <= 7:
+                        if answer >= 1 and answer <= 6:
                             break
 
                 name = {
                     1: name,
                     2: "Java 8",
                     3: "Java 11",
-                    4: "Java 16",
-                    5: "Java 17",
-                    6: "Java 18",
-                    7: "Java 19",
+                    4: "Java 17",
+                    5: "Java 18",
+                    6: "Java 19",
                 }[answer]
 
                 if answer > 1:
