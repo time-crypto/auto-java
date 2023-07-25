@@ -10,13 +10,13 @@ on:
       - java-auto/**
 jobs:
   push:
-    name: "java-auto:java_${{ matrix.tag }}"
+    name: "java-auto:${{ matrix.tag }}"
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         tag:
-         - auto
+         - 1
     steps:
       - uses: actions/checkout@v3
       - uses: docker/setup-qemu-action@v2
@@ -35,4 +35,4 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            ghcr.io/time-crypto/java-auto:java-auto_${{ matrix.tag }}
+            ghcr.io/time-crypto/java-auto:${{ matrix.tag }}
