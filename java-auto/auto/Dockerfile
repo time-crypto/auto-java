@@ -1,6 +1,6 @@
 FROM ubuntu:22.04
 
-LABEL author="Timothy Leung <timothy@springracks.com>" maintainer="Timothy Leung <timothy@springracks.com>"
+LABEL author="Timothy Leung <silent@springracks.com>" maintainer="Timothy Leung <silent@springracks.com>"
 ARG DEBIAN_FRONTEND=noninteractive
 ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
 
@@ -17,7 +17,6 @@ RUN ln -s /usr/lib/jvm/java-8-openjdk-$(dpkg --print-architecture)/jre/bin/java 
     ln -s /usr/lib/jvm/java-11-openjdk-$(dpkg --print-architecture)/bin/java /usr/local/bin/java11 && \
     ln -s /usr/lib/jvm/java-16-openjdk-$(dpkg --print-architecture)/bin/java /usr/local/bin/java16 && \
     ln -s /usr/lib/jvm/java-17-openjdk-$(dpkg --print-architecture)/bin/java /usr/local/bin/java17 && \
-
     useradd -d /home/container -m container
 
 USER container
