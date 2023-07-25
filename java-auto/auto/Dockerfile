@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 LABEL author="Timothy Leung <silent@springracks.com>" maintainer="Timothy Leung <silent@springracks.com>"
 ARG DEBIAN_FRONTEND=noninteractive
